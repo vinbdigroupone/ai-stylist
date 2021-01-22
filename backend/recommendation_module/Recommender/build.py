@@ -16,17 +16,16 @@ def build_system():
     ############ SYSTEM SETUP ############
     start_time = time.time()
 
-    cfg = Config.fromfile('configs/fashion_recommendation/'
-        'type_aware_recommendation_polyvore_disjoint_l2_embed.py')
-    cfg.load_from = 'checkpoint/epoch_16.pth'
+    cfg = Config.fromfile('./recommendation_module/Recommender/configs/fashion_recommendation/type_aware_recommendation_polyvore_disjoint_l2_embed.py')
+    cfg.load_from = './recommendation_module/Recommender/checkpoint/epoch_16.pth'
 
     # init distributed env first
     distributed = False
     gpu = torch.cuda.is_available()
     if gpu:
-        model_path = 'save_files/model_gpu.pickle'
+        model_path = './recommendation_module/Recommender/save_files/model_gpu.pickle'
     else:
-        model_path = 'save_files/model_cpu.pickle'
+        model_path = './recommendation_module/Recommender/save_files/model_cpu.pickle'
 
     types = ['tops', 'bottoms', 'shoes']
     type_spaces = {('tops', 'bottoms'): 9,
@@ -34,13 +33,13 @@ def build_system():
                     ('shoes', 'bottoms'): 6}
 
     # Load model and data from pickle file
-    with open('save_files/data_category.pickle', 'rb') as f:
+    with open('./recommendation_module/Recommender/save_files/data_category.pickle', 'rb') as f:
         data = pickle.load(f)
-    with open(model_path, 'rb') as f:
+    with open('./recommendation_module/Recommender/save_files/model_cpu.pickle', 'rb') as f:
         model = pickle.load(f)
-    with open('save_files/embeddings.pickle', 'rb') as f:
+    with open('./recommendation_module/Recommender/save_files/embeddings.pickle', 'rb') as f:
         embeddings = pickle.load(f)
-    with open('save_files/new_type_spaces.pickle', 'rb') as f:
+    with open('./recommendation_module/Recommender/save_files/new_type_spaces.pickle', 'rb') as f:
         new_type_spaces = pickle.load(f)
 
     # embeddings, new_type_spaces = create_embedding_spaces(types, data, model)  
@@ -57,7 +56,7 @@ def build_system():
 if __name__ == '__main__':
     engine, model, new_type_spaces, gpu = build_system()
 
-    in_img_path = 'shirt.png'
+    in_img_path = './recommendation_module/Recommender/shirt.png'
     item_type = 'tops'
     item_paths = generate_outfit(in_img_path, item_type, \
                                 engine, model, new_type_spaces, gpu=gpu)

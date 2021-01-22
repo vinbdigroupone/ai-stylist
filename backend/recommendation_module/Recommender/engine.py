@@ -178,7 +178,7 @@ def search_matching_item(index, in_embed, n_neighbours):
     return similar_img_id
 
 def generate_outfit(image, item_type:str, engine, model, \
-                    type_spaces, gpu, data_path='data/Polyvore/images'):
+                    type_spaces, gpu, data_path='./recommendation_module/Recommender/data/Polyvore/images'):
     '''
     Args:
         img_path: path of input image
