@@ -44,7 +44,7 @@ def get_tryon_image(image: UploadFile = File(...),
 def get_recommendation(image: UploadFile = File(...)):
     engine, model, new_type_spaces, gpu = build_system()
     img = Image.open(image.file)
-    results = generate_outfit(img, )
+    results = generate_outfit(img)
 
 if __name__ == '__main__':
     uvicorn.run('api:app', host='0.0.0.0', port=8080)

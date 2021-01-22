@@ -95,7 +95,7 @@ if choice == 'Clothes Try-on':
         st.text('Please upload an image to retrieve similar fashion product')
 
 if choice == 'Fashion compatilibity and recomendation':
-    backend = ''
+    backend = 'http://0.0.0.0:8080/outfitrecommender'
     html_temp = """
                     <div style="background-color:royalblue;padding:10px;border-radius:10px">
                     <h1 style="color:white;text-align:center;font-family:Verdana">Fashion Recommendation Engine</h1>
@@ -108,7 +108,7 @@ if choice == 'Fashion compatilibity and recomendation':
     if query_image:
         image = Image.open(query_image)
         st.image(image, caption='Query Image', width=300)
-        if st.button('Get recommendations'):
+        if st.button('Get outfit recommendations'):
             m = MultipartEncoder(fields={'file': ('filename', query_image, 'image/jpeg')})
             res = requests.post(backend,
                                 data=m, 
@@ -116,18 +116,16 @@ if choice == 'Fashion compatilibity and recomendation':
                                 timeout=8000)
             response = res.json()
             col1, col2 = st.beta_columns(2)
-            for i in range(len(response)):
-                col1.image(Image.open(response[i][0]), 
-                                      width=250, 
-                                      caption='Confidence score: '+str(response[i][1]), 
-                                      use_column_width=True)
-                col2.image(Image.open(response[i][0]), 
-                                      width=250, 
-                                      caption='Confidence score: '+str(response[i][1]), 
-                                      use_column_width=True)
+            col1.image(Image.open(response[i][0]), 
+                                  width=250, 
+                                  caption='Confidence score: '+str(response[i][1]), 
+                                  use_column_width=True)
+            col2.image(Image.open(response[i][0]), 
+                                  width=250, 
+                                  caption='Confidence score: '+str(response[i][1]), 
+                                  use_column_width=True)
             with st.spinner('Wait for it ...'):
                 time.sleep(0.1)
-            st.success('Done!!!')
 
     else: 
         st.text('Please upload an image to retrieve similar fashion product')
