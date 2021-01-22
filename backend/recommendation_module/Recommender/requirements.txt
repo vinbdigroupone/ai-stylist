@@ -1,0 +1,17 @@
+torchvision==0.8.1+cpu
+matplotlib==3.3.3
+torch==1.7.0+cpu
+opencv_python==4.5.1.48
+tqdm==4.52.0
+scipy==1.5.4
+numpy==1.18.5
+mmcv==1.2.6
+faiss_cpu==1.6.5
+coco==0.4.0
+custom==0.1.1
+faiss==1.5.3
+mmdet==2.8.0
+Pillow==8.1.0
+pycocotools==2.0.2
+scikit_learn==0.24.1
+voc==0.1.6

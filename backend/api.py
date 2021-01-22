@@ -2,6 +2,8 @@ from io import BytesIO
 import json
 from retrieval_module.retriever import retrieve
 from tryon_module.inference import tryon
+from recommendation_module.Recommender.engine import generate_outfit
+from recommendation_module.Recommender.build import build_system
 import uvicorn
 from fastapi import File
 from fastapi import FastAPI
@@ -39,8 +41,10 @@ def get_tryon_image(image: UploadFile = File(...),
     return Response(buffered.getvalue(), media_type='image/jpeg')
 
 @app.post('/outfitrecommender')
-def get_recommend():
-    return Response()
+def get_recommendation(image: UploadFile = File(...)):
+    engine, model, new_type_spaces, gpu = build_system()
+    img = Image.open(image.file)
+    results = generate_outfit(img, )
 
 if __name__ == '__main__':
     uvicorn.run('api:app', host='0.0.0.0', port=8080)

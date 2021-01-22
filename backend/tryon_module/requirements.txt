@@ -1,0 +1,16 @@
+uvicorn==0.13.3
+starlette==0.13.6
+torchvision==0.8.1+cpu
+matplotlib==3.3.3
+requests==2.22.0
+pandas==1.2.0
+numpy==1.18.5
+--find-links https://download.pytorch.org/whl/torch_stable.html 
+torch==1.7.1+cpu
+torch
+torchvision
+fastapi==0.63.0
+ipython==7.19.0
+Pillow==8.1.0
+PyYAML==5.4.1
+tensorboardX==2.1
