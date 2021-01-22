@@ -88,11 +88,11 @@ def tryon(image, image_parse, cloth, cloth_mask, pose):
   tom = UnetGenerator(25, 4, 6, ngf=64, norm_layer=nn.InstanceNorm2d)
   tom.load_state_dict(torch.load(TOM_MODEL_PATH))
   with torch.no_grad():
-    outputs = tom(torch.cat([agnostic, c], 1))
+    outputs = tom(torch.cat([agnostic, warped_cloth], 1))
     p_rendered, m_composite = torch.split(outputs, 3, 1)
     p_rendered = F.tanh(p_rendered)
     m_composite = F.sigmoid(m_composite)
-    p_tryon = c * m_composite + p_rendered * (1 - m_composite)  # (3, 256, 192)
+    p_tryon = warped_cloth * m_composite + p_rendered * (1 - m_composite)  # (3, 256, 192)
   tensor = (p_tryon.clone()+1)*0.5*255
   tensor = tensor.cpu().clamp(0,255)
   output = tensor[0].permute(1, 2, 0)
