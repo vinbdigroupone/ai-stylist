@@ -1,5 +1,7 @@
 from io import BytesIO
 import json
+from requests_toolbelt.multipart.encoder import MultipartEncoder
+from torch._C import BufferDict
 from retrieval_module.retriever import retrieve
 from tryon_module.inference import tryon
 from recommendation_module.Recommender.engine import generate_outfit
@@ -11,6 +13,9 @@ from fastapi import UploadFile, Form
 from starlette.responses import JSONResponse, Response
 from PIL import Image
 import base64
+
+import sys
+sys.path.insert(0, './recommendation_module/Recommender/')
 
 app = FastAPI()
 
@@ -45,8 +50,7 @@ def get_recommendation(image: UploadFile = File(...)):
     engine, model, new_type_spaces, gpu = build_system()
     img = Image.open(image.file)
     results = generate_outfit(img, 'tops', engine, model, new_type_spaces, gpu)
-    print(results)
-    return Response()
+    return JSONResponse(status_code=200, content=results)
 
 if __name__ == '__main__':
     uvicorn.run('api:app', host='0.0.0.0', port=8080)

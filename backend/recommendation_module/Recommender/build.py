@@ -9,6 +9,7 @@ from mmcv import Config
 from .engine import generate_outfit
 from .engine import SearchEngine
 
+
 def build_system():
     '''
     Prepare model and database for query

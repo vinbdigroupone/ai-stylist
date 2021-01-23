@@ -109,20 +109,18 @@ if choice == 'Fashion compatilibity and recomendation':
         image = Image.open(query_image)
         st.image(image, caption='Query Image', width=300)
         if st.button('Get outfit recommendations'):
-            m = MultipartEncoder(fields={'file': ('filename', query_image, 'image/jpeg')})
+            m = MultipartEncoder(fields={'image': ('filename', query_image, 'image/jpeg')})
             res = requests.post(backend,
                                 data=m, 
                                 headers={"Content-Type": m.content_type}, 
                                 timeout=8000)
             response = res.json()
             col1, col2 = st.beta_columns(2)
-            col1.image(Image.open(response[i][0]), 
+            col1.image(Image.open(response[0]), 
                                   width=250, 
-                                  caption='Confidence score: '+str(response[i][1]), 
                                   use_column_width=True)
-            col2.image(Image.open(response[i][0]), 
-                                  width=250, 
-                                  caption='Confidence score: '+str(response[i][1]), 
+            col2.image(Image.open(response[1]), 
+                                  width=250,
                                   use_column_width=True)
             with st.spinner('Wait for it ...'):
                 time.sleep(0.1)
