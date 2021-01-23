@@ -75,16 +75,11 @@ def tryon(image, image_parse, cloth, cloth_mask, pose):
   cm.unsqueeze_(0)
   c = torch.unsqueeze(c, 0)
   cm = torch.unsqueeze(cm, 0)
-  im_g = Image.open(GRID_PATH)
-  im_g = transform_im(im_g)  # (3, 256, 192)
-  im_g = torch.unsqueeze(im_g, 0)
   gmm = GMM(FINE_HEIGHT, FINE_WIDTH, GRID_SIZE)
   gmm.load_state_dict(torch.load(GMM_MODEL_PATH))
   with torch.no_grad():
     grid, theta = gmm(agnostic, c)  # grid (256, 192, 2), theta (18)
     warped_cloth = F.grid_sample(c, grid, padding_mode='border')  # (2, 356, 192)
-    warped_mask = F.grid_sample(cm, grid, padding_mode='zeros')  # (1, 256, 192)
-    warped_grid = F.grid_sample(im_g, grid, padding_mode='zeros') 
   tom = UnetGenerator(25, 4, 6, ngf=64, norm_layer=nn.InstanceNorm2d)
   tom.load_state_dict(torch.load(TOM_MODEL_PATH))
   with torch.no_grad():

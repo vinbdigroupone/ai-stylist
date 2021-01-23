@@ -46,10 +46,11 @@ def get_tryon_image(image: UploadFile = File(...),
     return Response(buffered.getvalue(), media_type='image/jpeg')
 
 @app.post('/outfitrecommender')
-def get_recommendation(image: UploadFile = File(...)):
+def get_recommendation(image: UploadFile = File(...), type: str = Form(...)):
     engine, model, new_type_spaces, gpu = build_system()
     img = Image.open(image.file)
-    results = generate_outfit(img, 'tops', engine, model, new_type_spaces, gpu)
+    print(type)
+    results = generate_outfit(img, type, engine, model, new_type_spaces, gpu)
     return JSONResponse(status_code=200, content=results)
 
 if __name__ == '__main__':

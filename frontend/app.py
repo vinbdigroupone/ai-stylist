@@ -104,12 +104,14 @@ if choice == 'Fashion compatilibity and recomendation':
     components.html(html_temp)
 
     query_image = st.file_uploader("Upload an image to get the recommendations", type="jpg")
-
+    cloth_type = ['tops', 'shoes', 'bottoms']
+    type = st.selectbox('Select cloth type', cloth_type)
     if query_image:
         image = Image.open(query_image)
         st.image(image, caption='Query Image', width=300)
         if st.button('Get outfit recommendations'):
-            m = MultipartEncoder(fields={'image': ('filename', query_image, 'image/jpeg')})
+            m = MultipartEncoder(fields={'image': ('filename', query_image, 'image/jpeg'),
+                                         'type': type})
             res = requests.post(backend,
                                 data=m, 
                                 headers={"Content-Type": m.content_type}, 
